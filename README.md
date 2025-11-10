@@ -1,8 +1,8 @@
 # Exhort JavaScript API<br/>![latest-no-snapshot][0] ![latest-snapshot][1]
 
-* Looking for the OpenAPI Spec? Try [Exhort API Spec](https://github.com/trustification/exhort-api-spec)
-* Looking for our Java API? Try [Exhort Java API](https://github.com/trustification/exhort-java-api).
-* Looking for our Backend implementation? Try [Exhort](https://github.com/trustification/exhort).
+* Looking for the OpenAPI Spec? Try [Exhort API Spec](https://github.com/trustify-da/trustify-da-api-model)
+* Looking for our Java API? Try [Exhort Java API](https://github.com/guacsec/exhort-java-api).
+* Looking for our Backend implementation? Try [Exhort](https://github.com/guacsec/exhort).
 
 The _Exhort JavaScript API_ module is deployed to _GitHub Package Registry_.
 
@@ -31,10 +31,11 @@ See [GH Docs](https://docs.github.com/en/packages/working-with-a-github-packages
 
 <h3>Usage</h3>
 <p>
-Configuring <em>NPM</em> to look in <em>GHPR</em> for the <em>trustification</em> namespace is done by adding
-<code>@trustification:registry=https://npm.pkg.github.com</code> to <em>.npmrc</em> in the project root or user home.
+Configuring <em>NPM</em> to look in <em>GHPR</em> for the <em>trustify-da</em> namespace is done by adding
+<code>@trustify-da:registry=https://npm.pkg.github.com</code> to <em>.npmrc</em> in the project root or user home.
 
 ```shell
+echo "@trustify-da:registry=https://npm.pkg.github.com" >> .npmrc
 echo "@trustification:registry=https://npm.pkg.github.com" >> .npmrc
 ```
 </p>
@@ -44,11 +45,11 @@ echo "@trustification:registry=https://npm.pkg.github.com" >> .npmrc
 Use as ESM Module from an ESM module
 
 ```shell
-npm install @trustification/exhort-javascript-api
+npm install @trustify-da/trustify-da-javascript-client
 ```
 
 ```javascript
-import exhort from '@trustification/exhort-javascript-api'
+import exhort from '@trustify-da/trustify-da-javascript-client'
 import fs from 'node:fs'
 
 // Get stack analysis in JSON format
@@ -65,14 +66,14 @@ let componentAnalysis = await exhort.componentAnalysis('/path/to/pom.xml')
 Use as ESM Module from Common-JS module
 
 ```shell
-npm install @trustification/exhort-javascript-api
+npm install @trustify-da/trustify-da-javascript-client
 ```
 
 ```javascript
 async function loadExhort()
 {
 // dynamic import is the only way to import ESM module into commonJS module
-  const { default: exhort } = await import('@trustification/exhort-javascript-api');
+  const { default: exhort } = await import('@trustify-da/trustify-da-javascript-client');
   return exhort
 }
 const runExhort = (manifestPath) => {
@@ -98,13 +99,13 @@ Use as CLI Script
 <summary>Click for help menu</summary>
 
 ```shell
-$ npx @trustification/exhort-javascript-api help
+$ npx @trustify-da/trustify-da-javascript-client help
 
-Usage: exhort-javascript-api {component|stack}
+Usage: trustify-da-javascript-client {component|stack}
 
 Commands:
-  exhort-javascript-api stack </path/to/manifest> [--html|--summary]               produce stack report for manifest path
-  exhort-javascript-api component <path/to/manifest> [--summary]   produce component report for a manifest type and content
+  trustify-da-javascript-client stack </path/to/manifest> [--html|--summary]               produce stack report for manifest path
+  trustify-da-javascript-client component <path/to/manifest> [--summary]   produce component report for a manifest type and content
 
 Options:
   --help  Show help                                                    [boolean]
@@ -113,16 +114,16 @@ Options:
 
 ```shell
 # get stack analysis in json format
-$ npx @trustification/exhort-javascript-api stack /path/to/pom.xml
+$ npx @trustify-da/trustify-da-javascript-client stack /path/to/pom.xml
 
 # get stack analysis in json format (summary only)
-$ npx @trustification/exhort-javascript-api stack /path/to/pom.xml --summary
+$ npx @trustify-da/trustify-da-javascript-client stack /path/to/pom.xml --summary
 
 # get stack analysis in html format format
-$ npx @trustification/exhort-javascript-api stack /path/to/pom.xml --html
+$ npx @trustify-da/trustify-da-javascript-client stack /path/to/pom.xml --html
 
 # get component analysis
-$ npx @trustification/exhort-javascript-api component /path/to/pom.xml
+$ npx @trustify-da/trustify-da-javascript-client component /path/to/pom.xml
 ```
 </li>
 
@@ -130,21 +131,21 @@ $ npx @trustification/exhort-javascript-api component /path/to/pom.xml
 Use as Global Binary
 
 ```shell
-npm install --global @trustification/exhort-javascript-api
+npm install --global @trustify-da/trustify-da-javascript-client
 ```
 
 ```shell
 # get stack analysis in json format
-$ exhort-javascript-api stack /path/to/pom.xml
+$ trustify-da-javascript-client stack /path/to/pom.xml
 
 # get stack analysis in json format (summary only)
-$ exhort-javascript-api stack /path/to/pom.xml --summary
+$ trustify-da-javascript-client stack /path/to/pom.xml --summary
 
 # get stack analysis in html format format
-$ exhort-javascript-api stack /path/to/pom.xml --html
+$ trustify-da-javascript-client stack /path/to/pom.xml --html
 
 # get component analysis
-$ exhort-javascript-api component /path/to/pom.xml
+$ trustify-da-javascript-client component /path/to/pom.xml
 ```
 </li>
 </ul>
@@ -206,7 +207,7 @@ Excluding a package from any analysis can be achieved by marking the package for
 
 <em>Golang</em> users can add in go.mod a comment with //exhortignore next to the package to be ignored, or to "piggyback" on existing comment ( e.g - //indirect) , for example:
 ```go
-module github.com/trustification/SaaSi/deployer
+module github.com/trustify-da/SaaSi/deployer
 
 go 1.19
 
@@ -295,22 +296,22 @@ for various customization.
 However, <em>ESM Module</em> users, can opt for customizing programmatically:
 
 ```javascript
-import exhort from '@trustification/exhort-javascript-api'
+import exhort from '@trustify-da/trustify-da-javascript-client'
 import fs from 'node:fs'
 
 let options = {
-  'EXHORT_MVN_PATH': '/path/to/my/mvn',
-  'EXHORT_NPM_PATH': '/path/to/npm',
-  'EXHORT_PNPM_PATH': '/path/to/pnpm',
-  'EXHORT_GO_PATH': '/path/to/go',
+  'TRUSTIFY_DA_MVN_PATH': '/path/to/my/mvn',
+  'TRUSTIFY_DA_NPM_PATH': '/path/to/npm',
+  'TRUSTIFY_DA_PNPM_PATH': '/path/to/pnpm',
+  'TRUSTIFY_DA_GO_PATH': '/path/to/go',
   //python - python3, pip3 take precedence if python version > 3 installed
-  'EXHORT_PYTHON3_PATH' : '/path/to/python3',
-  'EXHORT_PIP3_PATH' : '/path/to/pip3',
-  'EXHORT_PYTHON_PATH' : '/path/to/python',
-  'EXHORT_PIP_PATH' : '/path/to/pip',
-  'EXHORT_GRADLE_PATH' : '/path/to/gradle',
+  'TRUSTIFY_DA_PYTHON3_PATH' : '/path/to/python3',
+  'TRUSTIFY_DA_PIP3_PATH' : '/path/to/pip3',
+  'TRUSTIFY_DA_PYTHON_PATH' : '/path/to/python',
+  'TRUSTIFY_DA_PIP_PATH' : '/path/to/pip',
+  'TRUSTIFY_DA_GRADLE_PATH' : '/path/to/gradle',
   // Configure proxy for all requests
-  'EXHORT_PROXY_URL': 'http://proxy.example.com:8080'
+  'TRUSTIFY_DA_PROXY_URL': 'http://proxy.example.com:8080'
 }
 
 // Get stack analysis in JSON format ( all package managers, pom.xml is as an example here)
@@ -332,13 +333,13 @@ You can set the proxy URL in two ways:
 
 1. Using environment variable:
 ```shell
-export EXHORT_PROXY_URL=http://proxy.example.com:8080
+export TRUSTIFY_DA_PROXY_URL=http://proxy.example.com:8080
 ```
 
 2. Using the options object when calling the API programmatically:
 ```javascript
 const options = {
-  'EXHORT_PROXY_URL': 'http://proxy.example.com:8080'
+  'TRUSTIFY_DA_PROXY_URL': 'http://proxy.example.com:8080'
 }
 ```
 
@@ -361,62 +362,62 @@ following keys for setting custom paths for the said executables.
 <tr>
 <td><a href="https://maven.apache.org/">Maven</a></td>
 <td><em>mvn</em></td>
-<td>EXHORT_MVN_PATH</td>
+<td>TRUSTIFY_DA_MVN_PATH</td>
 </tr>
 <tr>
 <td><a href="https://maven.apache.org/">Maven</a></td>
 <td><em>maven</em></td>
-<td>EXHORT_PREFER_MVNW</td>
+<td>TRUSTIFY_DA_PREFER_MVNW</td>
 </tr>
 <tr>
 <td><a href="https://www.npmjs.com/">NPM</a></td>
 <td><em>npm</em></td>
-<td>EXHORT_NPM_PATH</td>
+<td>TRUSTIFY_DA_NPM_PATH</td>
 </tr>
 <tr>
 <td><a href="https://pnpm.io/">PNPM</a></td>
 <td><em>pnpm</em></td>
-<td>EXHORT_PNPM_PATH</td>
+<td>TRUSTIFY_DA_PNPM_PATH</td>
 </tr>
 <tr>
 <td><a href="https://classic.yarnpkg.com/">Yarn Classic</a> / <a href="https://yarnpkg.com/">Yarn Berry</a></td>
 <td><em>yarn</em></td>
-<td>EXHORT_YARN_PATH</td>
+<td>TRUSTIFY_DA_YARN_PATH</td>
 </tr>
 <tr>
 <td><a href="https://go.dev/blog/using-go-modules/">Go Modules</a></td>
 <td><em>go</em></td>
-<td>EXHORT_GO_PATH</td>
+<td>TRUSTIFY_DA_GO_PATH</td>
 </tr>
 <tr>
 <td><a href="https://www.python.org/">Python programming language</a></td>
 <td><em>python3</em></td>
-<td>EXHORT_PYTHON3_PATH</td>
+<td>TRUSTIFY_DA_PYTHON3_PATH</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/pip/">Python pip Package Installer</a></td>
 <td><em>pip3</em></td>
-<td>EXHORT_PIP3_PATH</td>
+<td>TRUSTIFY_DA_PIP3_PATH</td>
 </tr>
 <tr>
 <td><a href="https://www.python.org/">Python programming language</a></td>
 <td><em>python</em></td>
-<td>EXHORT_PYTHON_PATH</td>
+<td>TRUSTIFY_DA_PYTHON_PATH</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/pip/">Python pip Package Installer</a></td>
 <td><em>pip</em></td>
-<td>EXHORT_PIP_PATH</td>
+<td>TRUSTIFY_DA_PIP_PATH</td>
 </tr>
 <tr>
 <td><a href="https://gradle.org/">Gradle</a></td>
 <td><em>gradle</em></td>
-<td>EXHORT_GRADLE_PATH</td>
+<td>TRUSTIFY_DA_GRADLE_PATH</td>
 </tr>
 <tr>
 <td><a href="https://gradle.org/">Gradle</a></td>
 <td><em>gradle</em></td>
-<td>EXHORT_PREFER_GRADLEW</td>
+<td>TRUSTIFY_DA_PREFER_GRADLEW</td>
 </tr>
 </table>
 
@@ -446,7 +447,7 @@ Two possible values for this setting:
 
 #### Golang Support
 
-By default, Golang dependency resolution follows the [Minimal Version Selection (MVS) Algorithm](https://go.dev/ref/mod#minimal-version-selection).  
+By default, Golang dependency resolution follows the [Minimal Version Selection (MVS) Algorithm](https://go.dev/ref/mod#minimal-version-selection).
 This means that when analyzing a project, only the module versions that would actually be included in the final executable are considered.
 
 For example, if your `go.mod` file declares two modules, `a` and `b`, and both depend on the same package `c` (same major version `v1`) but with different minor versions:
@@ -454,14 +455,14 @@ For example, if your `go.mod` file declares two modules, `a` and `b`, and both d
 - `namespace/c/v1@v1.1`
 - `namespace/c/v1@v1.2`
 
-Only one of these versions — the minimal version selected by MVS — will be included in the generated SBOM and analysis results.  
+Only one of these versions — the minimal version selected by MVS — will be included in the generated SBOM and analysis results.
 This mirrors the behavior of a real Go build, where only one minor version of a given major version can be present in the executable (since Go treats packages with the same name and major version as identical).
 
-The MVS-based resolution is **enabled by default**.  
+The MVS-based resolution is **enabled by default**.
 If you want to disable this behavior and instead include **all transitive module versions** (as listed in `go.mod` dependencies), set the system property or environment variable:
 
 ```bash
-EXHORT_GO_MVS_LOGIC_ENABLED=false
+TRUSTIFY_DA_GO_MVS_LOGIC_ENABLED=false
 ```
 
 #### Python Support
@@ -470,8 +471,8 @@ By default, For python support, the api assumes that the package is installed us
 Binaries passed to environment variables. In any case, If the package is not installed , then an error will be thrown.
 
 There is an experimental feature of installing the requirements.txt on a virtual env(only python3 or later is supported for this feature) - in this case,
-it's important to pass in a path to python3 binary as `EXHORT_PYTHON3_PATH` or instead make sure that python3 is on the system path.
-in such case, You can use that feature by setting environment variable `EXHORT_PYTHON_VIRTUAL_ENV` to true.
+it's important to pass in a path to python3 binary as `TRUSTIFY_DA_PYTHON3_PATH` or instead make sure that python3 is on the system path.
+in such case, You can use that feature by setting environment variable `TRUSTIFY_DA_PYTHON_VIRTUAL_ENV` to true.
 
 ##### "Best Efforts Installation"
 Since Python pip packages are very sensitive/picky regarding python version changes( every small range of versions is only tailored for a certain python version), I'm introducing this feature, that
@@ -479,33 +480,33 @@ tries to install all packages in requirements.txt onto created virtual environme
 This increasing the chances and the probability that the automatic installation will succeed.
 
 ###### Usage
-A New setting is introduced - `EXHORT_PYTHON_INSTALL_BEST_EFFORTS` (as both env variable/key in `options` object)
-1. `EXHORT_PYTHON_INSTALL_BEST_EFFORTS`="false" - install requirements.txt while respecting declared versions for all packages.
-2. `EXHORT_PYTHON_INSTALL_BEST_EFFORTS`="true" - install all packages from requirements.txt, not respecting the declared version, but trying to install a version tailored for the used python version. When using this setting, you must set setting `MATCH_MANIFEST_VERSIONS` to 'false'.
+A New setting is introduced - `TRUSTIFY_DA_PYTHON_INSTALL_BEST_EFFORTS` (as both env variable/key in `options` object)
+1. `TRUSTIFY_DA_PYTHON_INSTALL_BEST_EFFORTS`="false" - install requirements.txt while respecting declared versions for all packages.
+2. `TRUSTIFY_DA_PYTHON_INSTALL_BEST_EFFORTS`="true" - install all packages from requirements.txt, not respecting the declared version, but trying to install a version tailored for the used python version. When using this setting, you must set setting `MATCH_MANIFEST_VERSIONS` to 'false'.
 
 ##### Using `pipdeptree`
 By default, The API algorithm will use native commands of PIP installer as data source to build the dependency tree.
-It's also possible to use the lightweight Python PIP utility [pipdeptree](https://pypi.org/project/pipdeptree/) as data source instead. In order to activate this, you need to set the environment variable/option `EXHORT_PIP_USE_DEP_TREE` to 'true'.
+It's also possible to use the lightweight Python PIP utility [pipdeptree](https://pypi.org/project/pipdeptree/) as data source instead. In order to activate this, you need to set the environment variable/option `TRUSTIFY_DA_PIP_USE_DEP_TREE` to 'true'.
 
 #### Toggle Red Hat Trusted Content recommendations
-Both the HTML-based report and JSON response will by default contain recommendations for migrating to Red Hat-based Trusted Content repositories. This feature can be disabled by setting `EXHORT_RECOMMENDATIONS_ENABLED` to 'false' via environment variables or options.
+Both the HTML-based report and JSON response will by default contain recommendations for migrating to Red Hat-based Trusted Content repositories. This feature can be disabled by setting `TRUSTIFY_DA_RECOMMENDATIONS_ENABLED` to 'false' via environment variables or options.
 
 #### Additional CLI arguments
 For some ecosystems we support passing additional CLI arguments to the underlying tools. The following table outlines the supported ecosystems and the environment variable/option that configures this. Note that the arguments are expected to be in the format of a JSON array.
 
 |Ecosystem|Key            |
 |---------|---------------|
-|Maven    |EXHORT_MVN_ARGS|
+|Maven    |TRUSTIFY_DA_MVN_ARGS|
 
 
 <!-- Badge links -->
-[0]: https://img.shields.io/github/v/release/trustification/exhort-javascript-api?color=green&label=latest
-[1]: https://img.shields.io/github/v/release/trustification/exhort-javascript-api?color=yellow&include_prereleases&label=early-access
+[0]: https://img.shields.io/github/v/release/guacsec/trustify-da-javascript-client?color=green&label=latest
+[1]: https://img.shields.io/github/v/release/guacsec/trustify-da-javascript-client?color=yellow&include_prereleases&label=early-access
 
 ### Known Issues
 
 - For pip requirements.txt - It's been observed that for python versions 3.11.x, there might be slowness for invoking the analysis.
-  If you encounter a performance issue with version >= 3.11.x, kindly try to set environment variable/option `EXHORT_PIP_USE_DEP_TREE=true`, before calling the analysis.
+  If you encounter a performance issue with version >= 3.11.x, kindly try to set environment variable/option `TRUSTIFY_DA_PIP_USE_DEP_TREE=true`, before calling the analysis.
 
 
 - For maven pom.xml, it has been noticed that using java 17 might cause stack analysis to hang forever.
