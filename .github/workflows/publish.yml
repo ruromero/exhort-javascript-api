@@ -67,7 +67,8 @@ jobs:
 
       - name: Publish package
         run: |
-          EA_VERSION="${{ steps.current-version.outputs.base-version }}-ea-${{ github.run_number }}"
+          SHORT_SHA=$(git rev-parse --short "${{ github.event.workflow_run.head_sha }}")
+          EA_VERSION="${{ steps.current-version.outputs.base-version }}-ea.${SHORT_SHA}"
           # Temporarily update version for publish
           npm version "$EA_VERSION" --no-git-tag-version
           npm publish --verbose --tag ea --access public --provenance
