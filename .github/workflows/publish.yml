@@ -22,7 +22,8 @@ jobs:
   publish-ea:
     if: |
       github.event_name == 'workflow_run' &&
-      github.event.workflow_run.head_branch == 'main'
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.event == 'push'
     runs-on: ubuntu-latest
     name: Publish EA release to NPM
     steps:
