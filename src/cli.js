@@ -87,7 +87,7 @@ const image = {
 		}
 		let html = args['html']
 		let summary = args['summary']
-		let res = await exhort.imageAnalysis(imageRefs, html)
+		let res = await client.imageAnalysis(imageRefs, html)
 		if(summary && !html) {
 			let summaries = {}
 			for (let [imageRef, report] of Object.entries(res)) {
