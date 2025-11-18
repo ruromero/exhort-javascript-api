@@ -25,6 +25,14 @@ let stackAnalysis = await exhort.stackAnalysis('/path/to/pom.xml')
 let stackAnalysisHtml = await exhort.stackAnalysis('/path/to/pom.xml', true)
 // Get component analysis in JSON format
 let componentAnalysis = await exhort.componentAnalysis('/path/to/pom.xml')
+// Get image analysis in JSON format
+let imageAnalysis = await exhort.imageAnalysis(['docker.io/library/node:18'])
+// Get image analysis in HTML format (string)
+let imageAnalysisHtml = await exhort.imageAnalysis(['docker.io/library/node:18'], true)
+// Analyze multiple images
+let multipleImagesAnalysis = await exhort.imageAnalysis(['docker.io/library/node:18', 'docker.io/library/python:3.9'])
+// Specify architecture using ^^ notation (e.g., httpd:2.4.49^^amd64)
+let imageAnalysisWithArch = await exhort.imageAnalysis(['httpd:2.4.49^^amd64'])
 ```
 </li>
 </ul>
@@ -68,11 +76,12 @@ Use as CLI Script
 ```shell
 $ npx @trustify-da/trustify-da-javascript-client help
 
-Usage: trustify-da-javascript-client {component|stack}
+Usage: trustify-da-javascript-client {component|stack|image|validate-token}
 
 Commands:
   trustify-da-javascript-client stack </path/to/manifest> [--html|--summary]               produce stack report for manifest path
   trustify-da-javascript-client component <path/to/manifest> [--summary]   produce component report for a manifest type and content
+  trustify-da-javascript-client image <image-refs..> [--html|--summary]               produce image analysis report for OCI image references
 
 Options:
   --help  Show help                                                    [boolean]
@@ -91,6 +100,22 @@ $ npx @trustify-da/trustify-da-javascript-client stack /path/to/pom.xml --html
 
 # get component analysis
 $ npx @trustify-da/trustify-da-javascript-client component /path/to/pom.xml
+
+# get image analysis in json format
+$ npx @trustify-da/trustify-da-javascript-client image docker.io/library/node:18
+
+# get image analysis in json format (summary only)
+# Note: summary returns an object with imageRef as key
+$ npx @trustify-da/trustify-da-javascript-client image docker.io/library/node:18 --summary
+
+# get image analysis in html format
+$ npx @trustify-da/trustify-da-javascript-client image docker.io/library/node:18 --html
+
+# analyze multiple images
+$ npx @trustify-da/trustify-da-javascript-client image docker.io/library/node:18 docker.io/library/python:3.9
+
+# specify architecture using ^^ notation (e.g., httpd:2.4.49^^amd64)
+$ npx @trustify-da/trustify-da-javascript-client image httpd:2.4.49^^amd64
 ```
 </li>
 
@@ -113,6 +138,22 @@ $ trustify-da-javascript-client stack /path/to/pom.xml --html
 
 # get component analysis
 $ trustify-da-javascript-client component /path/to/pom.xml
+
+# get image analysis in json format
+$ trustify-da-javascript-client image docker.io/library/node:18
+
+# get image analysis in json format (summary only)
+# Note: summary returns an object with imageRef as key
+$ trustify-da-javascript-client image docker.io/library/node:18 --summary
+
+# get image analysis in html format
+$ trustify-da-javascript-client image docker.io/library/node:18 --html
+
+# analyze multiple images
+$ trustify-da-javascript-client image docker.io/library/node:18 docker.io/library/python:3.9
+
+# specify architecture using ^^ notation (e.g., httpd:2.4.49^^amd64)
+$ trustify-da-javascript-client image httpd:2.4.49^^amd64
 ```
 </li>
 </ul>
@@ -288,6 +329,13 @@ let stackAnalysisHtml = await exhort.stackAnalysis('/path/to/pom.xml', true, opt
 
 // Get component analysis in JSON format
 let componentAnalysis = await exhort.componentAnalysis('/path/to/pom.xml', options)
+
+// Get image analysis in JSON format
+let imageAnalysis = await exhort.imageAnalysis(['docker.io/library/node:18'], false, options)
+// Get image analysis in HTML format in string
+let imageAnalysisHtml = await exhort.imageAnalysis(['docker.io/library/node:18'], true, options)
+// Specify architecture using ^^ notation (e.g., httpd:2.4.49^^amd64)
+let imageAnalysisWithArch = await exhort.imageAnalysis(['httpd:2.4.49^^amd64'], false, options)
 ```
  **_Environment variables takes precedence._**
 </p>
