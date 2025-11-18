@@ -55,6 +55,64 @@ const validateToken = {
 	}
 }
 
+// command for image analysis takes OCI image references
+const image = {
+	command: 'image <image-refs..>',
+	desc: 'produce image analysis report for OCI image references',
+	builder: yargs => yargs.positional(
+		'image-refs',
+		{
+			desc: 'OCI image references to analyze (one or more)',
+			type: 'string',
+			array: true,
+		}
+	).options({
+		html: {
+			alias: 'r',
+			desc: 'Get the report as HTML instead of JSON',
+			type: 'boolean',
+			conflicts: 'summary'
+		},
+		summary: {
+			alias: 's',
+			desc: 'For JSON report, get only the \'summary\'',
+			type: 'boolean',
+			conflicts: 'html'
+		}
+	}),
+	handler: async args => {
+		let imageRefs = args['image-refs']
+		if (!Array.isArray(imageRefs)) {
+			imageRefs = [imageRefs]
+		}
+		let html = args['html']
+		let summary = args['summary']
+		let res = await exhort.imageAnalysis(imageRefs, html)
+		if(summary && !html) {
+			let summaries = {}
+			for (let [imageRef, report] of Object.entries(res)) {
+				for (let provider in report.providers) {
+					if (report.providers[provider].sources !== undefined) {
+						for (let source in report.providers[provider].sources) {
+							if (report.providers[provider].sources[source].summary) {
+								if (!summaries[imageRef]) {
+									summaries[imageRef] = {};
+								}
+								if (!summaries[imageRef][provider]) {
+									summaries[imageRef][provider] = {};
+								}
+								summaries[imageRef][provider][source] = report.providers[provider].sources[source].summary
+							}
+						}
+					}
+				}
+			}
+			res = summaries
+		}
+		console.log(html ? res : JSON.stringify(res, null, 2))
+	}
+}
+
 // command for stack analysis takes a manifest path
 const stack = {
 	command: 'stack </path/to/manifest> [--html|--summary]',
@@ -112,9 +170,10 @@ const stack = {
 
 // parse and invoke the command
 yargs(hideBin(process.argv))
-	.usage(`Usage: ${process.argv[0].includes("node") ?  path.parse(process.argv[1]).base : path.parse(process.argv[0]).base} {component|stack|validate-token}`)
+	.usage(`Usage: ${process.argv[0].includes("node") ?  path.parse(process.argv[1]).base : path.parse(process.argv[0]).base} {component|stack|image|validate-token}`)
 	.command(stack)
 	.command(component)
+	.command(image)
 	.command(validateToken)
 	.scriptName('')
 	.version(false)
